@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block content %}
+      
+      <h1 class="title">
+        Productive
+      </h1>
+      <p class="subtitle">
+        My Feed
+        {{ lists }}
+      </p>
+      <div class="buttons">
+        {% for item in switch %}
+        {% if item['onoff']==1 %}
+        <button data_id="{{item['id']}}" class="button is-link switch-button">{{item['description']}}</button>
+        {% else %}
+        <button data_id="{{item['id']}}" class="button is-primary switch-button">{{item['description']}}</button>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <form action="/create" method="POST">
+        <textarea class="textarea is-link" name="post-content" placeholder="Post"></textarea>
+        <br>
+        <div class="control">
+            <button class="button is-primary">Submit</button>
+        </div>
+      </form>
+    <div class="grid-container">
+      <div class="leftBox">
+        <div class="box">
+          <article class="media">
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong>To Do</strong>
+                  <br>
+
+                    
+                    <div class="drag-elements droppable multipleChildren hasChild">
+                        {% for task in lists %}
+                        <div id="drag{{task['id']}}" class="dragElement redBorder">
+                          (<a style="color:red;" href="{{url_for('delete', task_id=task['id'])}}">delete</a>)
+                           {{ task['description'] }}
+                        </div>
+                        <!-- <div id="drag2" class="dragElement greenBorder">Drag me!</div>
+                        <div id="drag3" class="dragElement orangeBorder">Drag me!</div>
+                        <div id="drag4" class="dragElement pinkBorder">Drag me!</div> -->
+                        {% endfor %}
+                    </div>
+                  
+                </p>
+              </div>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  <a class="level-item" aria-label="reply">
+                    <span class="icon is-small">
+                      <i class="fas fa-reply" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                  <a class="level-item" aria-label="retweet">
+                    <span class="icon is-small">
+                      <i class="fas fa-retweet" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                  <a class="level-item" aria-label="like">
+                    <span class="icon is-small">
+                      <i class="fas fa-heart" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                </div>
+              </nav>
+            </div>
+          </article>
+        </div>
+        <div class="box">
+          <article class="media">
+            <div class="media-content">
+                <!-- <div class="drag-elements droppable multipleChildren hasChild">
+                    <div id="drag1" class="dragElement redBorder">Drag me!</div>
+                    <div id="drag2" class="dragElement greenBorder">Drag me!</div>
+                    <div id="drag3" class="dragElement orangeBorder">Drag me!</div>
+                    <div id="drag4" class="dragElement pinkBorder">Drag me!</div>
+                </div> -->
+              <!-- <div class="content">
+                <p>
+                  <strong>Main List</strong>
+                  {% for post in posts %}
+                  <div>text</div>
+                  {% endfor %}
+                </p>
+              </div> -->
+
+              <div class="drop-elements">
+                  <div class="dropElement droppable"></div>
+                </div>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  <a class="level-item" aria-label="reply">
+                    <span class="icon is-small">
+                      <i class="fas fa-reply" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                  <a class="level-item" aria-label="retweet">
+                    <span class="icon is-small">
+                      <i class="fas fa-retweet" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                  <a class="level-item" aria-label="like">
+                    <span class="icon is-small">
+                      <i class="fas fa-heart" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                </div>
+              </nav>
+            </div>
+          </article>
+        </div>
+      </div>
+      
+      <div class="rightBox">
+        {% for day in days %}
+        <div class="box">
+          <article class="media">
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong>{{day['day']}}</strong>
+                  <br>
+                  <div class="drop-elements">
+                      <div class="dropElement droppable"></div>
+                      <div class="dropElement droppable"></div>
+                      <div class="dropElement droppable"></div>
+                    </div>
+                </p>
+              </div>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  <a class="level-item" aria-label="reply">
+                    <span class="icon is-small">
+                      <i class="fas fa-reply" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                  <a class="level-item" aria-label="retweet">
+                    <span class="icon is-small">
+                      <i class="fas fa-retweet" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                  <a class="level-item" aria-label="like">
+                    <span class="icon is-small">
+                      <i class="fas fa-heart" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                </div>
+              </nav>
+            </div>
+          </article>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+
+{% endblock %}
+      

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Productive</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- <link href="../static/css/drag-and-drop.css" type="text/css" rel="stylesheet" > -->
+	  <!-- <link href="../static/css/part-i.css" type="text/css" rel="stylesheet" > -->
+  </head>
+  <style>
+    .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+  }
+  .drop-elements{margin:20px;padding:20px;overflow: auto;text-align: center;}
+
+  .dropElement{width:100%;margin-bottom:3%;height:50px;padding:1%;background-color:#FFC551;vertical-align: top;}
+
+  .dropElement:last-child{margin-right:0;}
+
+  .drag-elements{height:300px;padding-top:10px;overflow:auto;background-color:#FFC551;text-align: center;}
+
+  .dropElement,.drag-elements,.dragElement{border-radius:5px;}
+
+  .dragElement{margin: 0 auto;width: 90%;height:40px;background-color:#0F368F;color:#fff;font-weight:bold;text-align: center;border: 4px solid;border-radius:5px;}
+
+  .drag-elements .dragElement{margin:10px;}
+
+  .drag-elements .dragElement:last-child{margin-right:0;}
+
+  .dragElement:hover{cursor: pointer;}
+
+  .dragEnter{background-color:#33A0A0;}
+  .hasChild{background-color:#D56100;}
+  </style>
+  <body>
+      
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="{{url_for('feed')}}" style="font-size: 32px; font-weight: bold; font-family: 'Comic Sans MS', sans-serif;">
+            TBD
+          </a>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item" href="{{url_for('feed')}}">
+              Home
+            </a>
+      
+            <a class="navbar-item" href="{{url_for('feed')}}">
+              Feed
+            </a>
+
+            <a class="navbar-item">
+                My Profile
+              </a>
+      
+            <!-- <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                More
+              </a>
+      
+              <div class="navbar-dropdown">
+                <a class="navbar-item">
+                  About
+                </a>
+                <a class="navbar-item">
+                  Jobs
+                </a>
+                <a class="navbar-item">
+                  Contact
+                </a>
+                <hr class="navbar-divider">
+                <a class="navbar-item">
+                  Report an issue
+                </a>
+              </div>
+            </div> -->
+          </div>
+      
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-primary">
+                  <strong>Sign up</strong>
+                </a>
+                <a class="button is-light">
+                  Log in
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+
+
+        <!-- <div class="drag-elements droppable multipleChildren hasChild">
+          <div id="drag1" class="dragElement redBorder">Drag me!</div>
+          <div id="drag2" class="dragElement greenBorder">Drag me!</div>
+          <div id="drag3" class="dragElement orangeBorder">Drag me!</div>
+          <div id="drag4" class="dragElement pinkBorder">Drag me!</div>
+        </div> -->
+
+  <section class="section">
+    <div class="container">
+
+        {% block content %}{% endblock %}
+
+    </div>
+  </section>
+  <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.11.1.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='part-i.js') }}"></script>
+  <script>
+    function switchButton(btn_id){
+    //  alert(btn_id);
+    var $link = $(this);
+      $.ajax({
+        url:'/switch/' + btn_id
+      }).done(function(data) {
+        // alert(data);
+        var id = '#' + btn_id;
+        if(data == '1'){
+          $('.switch-button').addClass('is-link');
+          $('.switch-button').removeClass('is-primary');
+        } else {
+          $('.switch-button').addClass('is-primary');
+          $('.switch-button').removeClass('is-link');
+        }
+       
+       
+      })
+    }
+    $('.switch-button').click(function() {
+          var btn_id = parseInt($(this).attr('data_id'));
+          // alert('like button clicked! post id was ' + post_id);
+          var $link = $(this);
+          $.ajax({
+            context:this,
+            url: '/switch/' + btn_id
+          }).done(function(data) {
+            if(data == '1'){
+              $(this).addClass('is-link');
+              $(this).removeClass('is-primary');
+            } else {
+              $(this).addClass('is-primary');
+              $(this).removeClass('is-link');
+            }
+       
+          })
+          .fail(function() {
+            alert( "error" );
+          })
+        });
+
+   
+  </script>
+  </body>
+</html>
