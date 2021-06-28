@@ -9,6 +9,25 @@
         My Feed
         {{ lists }}
       </p>
+      <div class="timerContainer">
+        <button onclick="changeTask('Workout');">Workout</button>
+        <button onclick="changeTask('Crochet');">Crochet</button>
+        <button onclick="changeTask('Code');">Code</button>
+        <h1 class="timerTask">Task</h1>
+        <div class="timer">
+          <div class="timer">
+            <span class="hour">00</span>:<span class="minute">00</span>:<span class="second">10</span>
+          </div>
+          <div class="control">
+              <button onClick="timer.start(1000)">Start</button> 
+              <button onClick="timer.stop()">Stop</button> 
+              <button onClick="timer.reset(60)">Reset</button> 
+              <button onClick="timer.mode(1)">Count up</button> 
+              <button onClick="timer.mode(0)">Count down</button>
+          </div>
+        </div>
+      </div>
+      <br>
       <div class="buttons">
         {% for item in switch %}
         {% if item['onoff']==1 %}
@@ -36,15 +55,15 @@
                   <br>
 
                     
-                    <div class="drag-elements droppable multipleChildren hasChild">
+                    <div data_id="0" class="drag-elements droppable multipleChildren hasChild">
                         {% for task in lists %}
-                        <div id="drag{{task['id']}}" class="dragElement redBorder">
+                        {%if task['placement'] == 0%}
+                        <div data_id="{{task['id']}}" id="drag{{task['id']}}" class="dragElement redBorder">
                           (<a style="color:red;" href="{{url_for('delete', task_id=task['id'])}}">delete</a>)
                            {{ task['description'] }}
                         </div>
-                        <!-- <div id="drag2" class="dragElement greenBorder">Drag me!</div>
-                        <div id="drag3" class="dragElement orangeBorder">Drag me!</div>
-                        <div id="drag4" class="dragElement pinkBorder">Drag me!</div> -->
+                        {% endif %}
+
                         {% endfor %}
                     </div>
                   
@@ -81,18 +100,15 @@
                     <div id="drag3" class="dragElement orangeBorder">Drag me!</div>
                     <div id="drag4" class="dragElement pinkBorder">Drag me!</div>
                 </div> -->
-              <!-- <div class="content">
-                <p>
-                  <strong>Main List</strong>
-                  {% for post in posts %}
-                  <div>text</div>
-                  {% endfor %}
-                </p>
-              </div> -->
+             
 
-              <div class="drop-elements">
-                  <div class="dropElement droppable"></div>
-                </div>
+              <!-- <div class="drop-elements">  -->
+                  <div id="test" class="drop-zone ">
+                   
+                    <div id="dragTest" draggable="true">heyo</div>
+                    
+                  </div>
+                <!-- </div> -->
               <nav class="level is-mobile">
                 <div class="level-left">
                   <a class="level-item" aria-label="reply">
@@ -119,17 +135,32 @@
       
       <div class="rightBox">
         {% for day in days %}
-        <div class="box">
+        <div   class="box">
           <article class="media">
             <div class="media-content">
               <div class="content">
                 <p>
                   <strong>{{day['day']}}</strong>
                   <br>
-                  <div class="drop-elements">
-                      <div class="dropElement droppable"></div>
-                      <div class="dropElement droppable"></div>
-                      <div class="dropElement droppable"></div>
+
+
+                  <!-- for each task -->
+                   <!-- if task id == day id then  -->
+                  <div id="{{day['day']}}"  class="drop-elements">
+                      {% for task in lists %}
+                      {%if task['placement'] == day['id'] %}
+                      <div cdata_id="{{day['id']}}"  class="dropElement droppable hasChild">
+                      <div data_id="{{task['id']}}" id="drag{{task['id']}}" class="dragElement redBorder">
+                        (<a style="color:red;" href="{{url_for('delete', task_id=task['id'])}}">delete</a>)
+                         {{ task['description'] }}
+                      </div>
+                      </div>
+                      {% endif %}
+    
+                      {% endfor %}
+                      <div data_id="{{day['id']}}" id="{{day['day']}}1" class="dropElement droppable"></div>
+                      <div data_id="{{day['id']}}" id="{{day['day']}}2" class="dropElement droppable"></div>
+                      <div data_id="{{day['id']}}" id="{{day['day']}}3" class="dropElement droppable"></div>
                     </div>
                 </p>
               </div>

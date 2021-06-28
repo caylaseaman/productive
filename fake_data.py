@@ -19,6 +19,29 @@ dogs = [
     }
 ]
 
+
+timerData = [
+    {
+        "name" : "Test1",
+        "currentTimeH" : 0,
+        "currentTimeM" : 0,
+        "totalTime" : 0
+    },
+    {
+        "name" : "Test2",
+        "currentTimeH" : 2,
+        "currentTimeM" : 9,
+        "totalTime" : 0,
+    },
+    {
+        "name" : "Test3",
+        "currentTimeH" : 0,
+        "currentTimeM" : 20,
+        "totalTime" : 400,
+    },
+  
+]
+
 def get_dog_by_handle(handle):
     for dog in dogs:
         if dog['handle'] == handle:
@@ -28,46 +51,32 @@ def get_dog_by_handle(handle):
 days = [
     {
         "day" : "Monday",
-        "handle" : "melba",
-        "likes" : ["rose", "chucky"],
-        "id" : "1"
+        "id" : 1
     },
     {
         "day" : "Tuesday",
-        "handle" : "rose",
-        "likes" : ["melba","chucky"],
-        "id" : "6"
+        "id" : 2
     },
     {
         "day" : "Wednesday",
-        "handle" : "melba",
-        "likes" : ["rose"],
-        "id" : "2"
+        "id" : 3
     },
     
     {
         "day" : "Thursday",
-        "handle" : "chucky",
-        "likes" : ["rose"],
-        "id" : "3"
+        "id" : 4
     },
     {
         "day" : "Friday",
-        "handle" : "melba",
-        "likes" : ["chucky"],
-        "id" : "4"
+        "id" : 5
     },
     {
         "day" : "Saturday",
-        "handle" : "rose",
-        "likes" : ["melba","chucky"],
-        "id" : "5"
+        "id" : 6
     },
     {
         "day" : "Sunday",
-        "handle" : "rose",
-        "likes" : ["melba","chucky"],
-        "id" : "5"
+        "id" : 7
     }
    
 ]

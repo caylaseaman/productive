@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from fake_data import dogs, days, get_dog_by_handle, get_posts_by_handle, get_post_by_id, add_post_url
-from database import get_list, insert_post, delete_post, switch_button, get_switch, get_switch_list
+from fake_data import dogs, days, get_dog_by_handle, get_posts_by_handle, get_post_by_id, add_post_url, timerData
+from database import get_list, insert_post, delete_post, switch_button, get_switch, get_switch_list, update_placement
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, IntegerField, FileField
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
@@ -9,6 +9,7 @@ from urllib.parse import urlparse, urljoin
 import pymysql
 import mysql.connector
 import flask
+import datetime
 
 app = Flask(__name__, template_folder="templates", static_url_path='/static')
 
@@ -127,8 +128,25 @@ def feed():
     switch = get_switch_list()
     print(switch)
     print(current_user.username)
+
    
-    return render_template('feed.html', days=days, lists=lists, switch=switch)
+   
+    return render_template('feed.html', days=days, lists=lists, switch=switch, timerData=timerData)
+
+def rotateArray(arr, n, d):
+    temp = []
+    i = 0
+    while (i < d):
+        temp.append(arr[i])
+        i = i + 1
+    i = 0
+    while (d < n):
+        arr[i] = arr[d]
+        i = i + 1
+        d = d + 1
+    arr[:] = arr[: i] + temp
+    return arr
+    
     
 @app.route('/dog/<string:handle>')
 def dog(handle):
@@ -169,6 +187,17 @@ def switch(btn_id):
     switch_button(btn_id)
     return get_switch(btn_id)
 
+
+@app.route('/drag/<int:id>/<int:placement>')
+@login_required
+def drag(id,placement):
+    print(id)
+    print(placement)
+    update_placement(id,placement)
+    return "success"
+
 if __name__ == "__main__":
     get_list()
+    shift = datetime.datetime.today().weekday()
+    rotateArray(days, 7, shift)
     app.run(debug=True)

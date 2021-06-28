@@ -7,11 +7,11 @@ def get_list():
     cnx = mysql.connector.connect(user=user, password=password, host=host, database=database)
     mycursor = cnx.cursor()
 
-    mycursor.execute("SELECT * FROM test")
+    mycursor.execute("SELECT * FROM tasks")
     myresult = mycursor.fetchall()
     # print(mycursor.description)
     # print(myresult)
-    columns = ["id", "description"]
+    columns = ["id", "description", "placement", "checked"]
     results = []
 
     for row in myresult:
@@ -28,7 +28,7 @@ def insert_post(content):
   cnx = mysql.connector.connect(user=user, password=password, host=host, database=database)
   cursor = cnx.cursor()
   value = content
-  query = "INSERT INTO test (description) VALUES (%s)"
+  query = "INSERT INTO tasks (description, placement, checked) VALUES (%s, 0, 0)"
   cursor.execute(query,(value,))
  
   print("Inserted",cursor.rowcount,"row(s) of data.")
@@ -42,7 +42,7 @@ def insert_post(content):
 def delete_post(task_id):
   cnx = mysql.connector.connect(user=user, password=password, host=host, database=database)
   cursor = cnx.cursor()
-  query = "DELETE FROM test WHERE id=%s"
+  query = "DELETE FROM tasks WHERE id=%s"
   cursor.execute(query,(task_id,))
   # results = cursor.execute("""DELETE FROM test WHERE id= ? """, task_id)
   
@@ -65,6 +65,20 @@ def switch_button(id):
   cnx.commit()
   cnx.close()
   # print(results)
+  
+def update_placement(id, placement):
+  cnx = mysql.connector.connect(user=user, password=password, host=host, database=database)
+  cursor = cnx.cursor()
+  # query = "SELECT * FROM buttons WHERE description=%s"
+  query = "UPDATE tasks SET placement = %s WHERE id=%s"
+
+  cursor.execute(query,(placement, id,))
+ 
+  print(cursor.fetchall())
+ 
+
+  cnx.commit()
+  cnx.close()
   
 def get_switch(button_id):
   cnx = mysql.connector.connect(user=user, password=password, host=host, database=database)
